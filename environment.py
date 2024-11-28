@@ -118,25 +118,32 @@ class Env:
         """ Read the size of the grid and window and loads into a dictionary """   
         # Open config file
         size_file = os.path.join(self.data_folder, "env_size.txt")
-        with open(size_file, "r") as file:
-            # Read each line of the file
-            for line in file:
-                # Split the line into words
-                words = line.split()
+        if os.path.exists(size_file):
+            print("Caminho Existe")
+        else:
+            print(f"Caminho Não existe: {size_file}\n\n")
+        try:
+            with open(size_file, "r") as file:
+                # Read each line of the file
+                for line in file:
+                    # Split the line into words
+                    words = line.split()
 
-                # Get the keyword and value
-                keyword = words[0]
-                raw_value = words[1]
+                    # Get the keyword and value
+                    keyword = words[0]
+                    raw_value = words[1]
 
-                # casts the value 
-                if keyword == "BASE":
-                    value = [int(i) for i in raw_value.split(',')]
-                elif keyword == "DELAY":
-                    value = float(raw_value)
-                else:
-                    value = int(raw_value)
+                    # casts the value 
+                    if keyword == "BASE":
+                        value = [int(i) for i in raw_value.split(',')]
+                    elif keyword == "DELAY":
+                        value = float(raw_value)
+                    else:
+                        value = int(raw_value)
 
-                self.dic[keyword] = value               
+                    self.dic[keyword] = value
+        except Exception as e:
+            print(f"Erro ao abrir o arquivo env_size.txt: {e}")      
 
     
     def add_agent(self, mind, state=PhysAgent.ACTIVE):
