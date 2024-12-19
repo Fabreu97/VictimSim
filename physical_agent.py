@@ -134,8 +134,10 @@ class PhysAgent:
         seq = -1
 
         if (self.x, self.y) in self.env.victims:
-            seq = self.env.victims.index((self.x, self.y))
-
+            try:
+                seq = self.env.victims.index((self.x, self.y))
+            except ValueError:
+                seq = -1
         return seq
 
     def read_vital_signals(self, seq):
